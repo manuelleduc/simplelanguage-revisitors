@@ -40,12 +40,12 @@
  */
 package fr.mleduc.simplelanguage.revisitor.lang;
 
+import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.interop.CanResolve;
 import com.oracle.truffle.api.interop.MessageResolution;
 import com.oracle.truffle.api.interop.Resolve;
 import com.oracle.truffle.api.interop.TruffleObject;
 import com.oracle.truffle.api.nodes.Node;
-import fr.mleduc.simplelanguage.revisitor.model.FunDef;
 
 
 /**
@@ -57,26 +57,26 @@ import fr.mleduc.simplelanguage.revisitor.model.FunDef;
  */
 @MessageResolution(receiverType = FunDef.class)
 public class SLFunctionMessageResolution {
-//    /*
+    //    /*
 //     * An SL function resolves an EXECUTE message.
 //     */
-//    @Resolve(message = "EXECUTE")
-//    public abstract static class SLForeignFunctionExecuteNode extends Node {
-//
-//        @Child
-//        private SLDispatchNode dispatch = SLDispatchNodeGen.create();
-//
-//        public Object access(FunDef receiver, Object[] arguments) {
-//            Object[] arr = new Object[arguments.length];
-//            // Before the arguments can be used by the FunDef, they need to be converted to SL
-//            // values.
-//            for (int i = 0; i < arr.length; i++) {
-//                arr[i] = fromForeignValue(arguments[i]);
-//            }
-//            Object result = dispatch.executeDispatch(receiver, arr);
-//            return result;
-//        }
-//    }
+    @Resolve(message = "EXECUTE")
+    public abstract static class SLForeignFunctionExecuteNode extends Node {
+
+        @Child
+        private SLDispatchNode dispatch = SLDispatchNodeGen.create();
+
+        public Object access(FunDef receiver, Object[] arguments) {
+            Object[] arr = new Object[arguments.length];
+            // Before the arguments can be used by the SLFunction, they need to be converted to SL
+            // values.
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = fromForeignValue(arguments[i]);
+            }
+            Object result = dispatch.executeDispatch(receiver, arr);
+            return result;
+        }
+    }
 
     /*
      * An SL function should respond to an IS_EXECUTABLE message with true.
@@ -94,5 +94,26 @@ public class SLFunctionMessageResolution {
         protected static boolean test(TruffleObject receiver) {
             return receiver instanceof FunDef;
         }
+    }
+
+    public static Object fromForeignValue(Object a) {
+        if (a instanceof Integer || a instanceof String || a instanceof Boolean) {
+            return a;
+        } else if (a instanceof Character) {
+            return String.valueOf(a);
+        } else if (a instanceof Number) {
+            return fromForeignNumber(a);
+        } else if (a instanceof TruffleObject) {
+            return a;
+        } else if (a instanceof SLContext) {
+            return a;
+        }
+        CompilerDirectives.transferToInterpreter();
+        throw new IllegalStateException(a + " is not a Truffle value");
+    }
+
+    @CompilerDirectives.TruffleBoundary
+    private static long fromForeignNumber(Object a) {
+        return ((Number) a).intValue();
     }
 }

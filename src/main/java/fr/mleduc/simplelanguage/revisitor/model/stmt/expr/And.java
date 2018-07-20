@@ -1,6 +1,5 @@
 package fr.mleduc.simplelanguage.revisitor.model.stmt.expr;
 
-import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
 
 @NodeInfo(description = "And", shortName = "&&")

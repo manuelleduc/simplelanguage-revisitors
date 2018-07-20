@@ -1,8 +1,5 @@
 package fr.mleduc.simplelanguage.revisitor.model.stmt.expr;
 
-import com.oracle.truffle.api.dsl.NodeChild;
-import com.oracle.truffle.api.dsl.NodeChildren;
-
 //@NodeChildren({@NodeChild("left"), @NodeChild("right")})
 public abstract class Binary extends Expr {
 

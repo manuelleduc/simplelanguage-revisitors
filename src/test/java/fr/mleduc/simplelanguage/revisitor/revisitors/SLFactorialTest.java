@@ -40,11 +40,6 @@
  */
 package fr.mleduc.simplelanguage.revisitor.revisitors;
 
-import com.oracle.truffle.api.Truffle;
-import com.oracle.truffle.api.frame.FrameDescriptor;
-import com.oracle.truffle.api.frame.VirtualFrame;
-import fr.mleduc.simplelanguage.revisitor.model.FunDef;
-import fr.mleduc.simplelanguage.revisitor.revisitors.semantics.FunDefT;
 import org.graalvm.polyglot.Context;
 import org.graalvm.polyglot.Value;
 import org.junit.jupiter.api.AfterAll;
@@ -72,7 +67,8 @@ public class SLFactorialTest {
                 "}\n"
         );
         // @formatter:on
-        factorial = context.getBindings("slr").getMember("fac");
+        Value slr = context.getBindings("slr");
+        factorial = slr.getMember("fac");
     }
 
     @AfterAll
@@ -94,15 +90,19 @@ public class SLFactorialTest {
 
     @Test
     public void factorialOf1() throws Exception {
-        final ExecSLRevisitor execSLRevisitor = new ExecSLRevisitor() {
-        };
-        FunDefT $ = execSLRevisitor.$(factorial.<FunDef>asHostObject());
+        Number ret = factorial.execute(1).as(Number.class);
+        assertEquals(1, ret.intValue());
+    }
 
+    @Test
+    public void factorialOfX() throws Exception {
+        //Number ret = factorial.execute(1).as(Number.class);
 
-        VirtualFrame callerFrame = Truffle.getRuntime().createVirtualFrame(new Object[] {
-                1
-        }, new FrameDescriptor());
-        final Object ret = $.call(callerFrame);
-        assertEquals(1, ret);
+        for (int i = 1; i < Integer.MAX_VALUE; i++) {
+            long start = System.currentTimeMillis();
+            Number res = factorial.execute(i).as(Number.class);
+            long stop = System.currentTimeMillis();
+            System.out.println(i + " = " + res + "(" + (stop - start + ")"));
+        }
     }
 }

@@ -43,8 +43,6 @@ package fr.mleduc.simplelanguage.revisitor.lang;
 import com.oracle.truffle.api.RootCallTarget;
 import com.oracle.truffle.api.interop.TruffleObject;
 import com.oracle.truffle.api.source.Source;
-import fr.mleduc.simplelanguage.revisitor.model.FunDef;
-import fr.mleduc.simplelanguage.revisitor.model.stmt.Block;
 import fr.mleduc.simplelanguage.revisitor.parser.SimpleLanguageParser;
 
 import java.util.*;
@@ -68,7 +66,7 @@ public final class FunDefRegistry {
     public FunDef lookup(String name, boolean createIfNotPresent) {
         FunDef result = functionsObject.functions.get(name);
         if (result == null && createIfNotPresent) {
-            result = new FunDef(name, null, null);
+            result = new FunDef(name, null);
             functionsObject.functions.put(name, result);
         }
         return result;
@@ -79,15 +77,15 @@ public final class FunDefRegistry {
      * node. If the function did not exist before, it defines the function. If the function existed
      * before, it redefines the function and the old implementation is discarded.
      */
-    public FunDef register(String name, Block block) {
+    public FunDef register(String name, RootCallTarget block) {
         FunDef function = lookup(name, true);
         // TODO
         function.setBlock(block);
         return function;
     }
 
-    public void register(Map<String, Block> newFunctions) {
-        for (Map.Entry<String, Block> entry : newFunctions.entrySet()) {
+    public void register(Map<String, RootCallTarget> newFunctions) {
+        for (Map.Entry<String, RootCallTarget> entry : newFunctions.entrySet()) {
             register(entry.getKey(), entry.getValue());
         }
     }

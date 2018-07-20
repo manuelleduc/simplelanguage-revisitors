@@ -23,7 +23,7 @@ public class EvalRoot extends RootNode {
 //    @Child
 //    private DirectCallNode mainCallNode;
 
-    public EvalRoot(SLRLanguage language, RootCallTarget rootFunction, Map<String, RootCallTarget> functions) {
+    public EvalRoot(SLRLanguage language, RootCallTarget  rootFunction, Map<String, RootCallTarget> functions) {
         super(null);
         this.functions = functions;
 //        this.mainCallNode = rootFunction != null ? DirectCallNode.create(rootFunction) : null;
@@ -38,6 +38,8 @@ public class EvalRoot extends RootNode {
             /* Function registration is a slow-path operation that must not be compiled. */
             CompilerDirectives.transferToInterpreterAndInvalidate();
             reference.get().getFunctionRegistry().register(functions);
+            reference.get().saveFrame(frame);
+
             registered = true;
         }
 

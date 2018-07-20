@@ -4,11 +4,12 @@ import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.nodes.NodeInfo;
 import com.oracle.truffle.api.nodes.RootNode;
-import com.oracle.truffle.api.source.SourceSection;
 import fr.mleduc.simplelanguage.revisitor.lang.SLRLanguage;
 import fr.mleduc.simplelanguage.revisitor.model.stmt.expr.Expr;
+import fr.mleduc.simplelanguage.revisitor.revisitors.ExecSLRevisitor;
+import fr.mleduc.simplelanguage.revisitor.revisitors.semantics.ExprT;
 
-import static com.oracle.truffle.api.CompilerDirectives.*;
+import static com.oracle.truffle.api.CompilerDirectives.CompilationFinal;
 
 @NodeInfo(language = SLRLanguage.ID, description = "root")
 public class Root extends RootNode {
@@ -33,9 +34,11 @@ public class Root extends RootNode {
 
     @Override
     public Object execute(VirtualFrame frame) {
+        final ExecSLRevisitor execSLRevisitor = new ExecSLRevisitor() {
+        };
+        ExprT $ = execSLRevisitor.$(bodyNode);
+        return $.eval(frame);
 
-        // TODO: cannot be implemented without prior knowledge of a revisitor :/
-        return 42;
     }
 
     public Expr getBodyNode() {

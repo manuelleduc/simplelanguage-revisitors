@@ -43,7 +43,6 @@ package fr.mleduc.simplelanguage.revisitor.lang;
 import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.interop.*;
 import com.oracle.truffle.api.nodes.Node;
-import fr.mleduc.simplelanguage.revisitor.model.FunDef;
 
 import java.util.HashMap;
 import java.util.Iterator;

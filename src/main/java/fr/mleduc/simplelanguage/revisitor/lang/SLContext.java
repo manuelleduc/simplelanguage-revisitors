@@ -3,6 +3,7 @@ package fr.mleduc.simplelanguage.revisitor.lang;
 import com.oracle.truffle.api.CompilerDirectives;
 import com.oracle.truffle.api.Scope;
 import com.oracle.truffle.api.TruffleLanguage;
+import com.oracle.truffle.api.frame.VirtualFrame;
 import com.oracle.truffle.api.interop.TruffleObject;
 
 import java.util.Collections;
@@ -11,6 +12,7 @@ public class SLContext {
     private final TruffleLanguage.Env env;
     private final Iterable<Scope> topScopes;
     private final FunDefRegistry functionRegistry;
+    private VirtualFrame frame;
 
     public SLContext(SLRLanguage language, TruffleLanguage.Env env) {
         this.env = env;
@@ -45,5 +47,13 @@ public class SLContext {
 
     public FunDefRegistry getFunctionRegistry() {
         return functionRegistry;
+    }
+
+    public void saveFrame(VirtualFrame frame) {
+        this.frame = frame;
+    }
+
+    public VirtualFrame getFrame() {
+        return frame;
     }
 }

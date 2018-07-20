@@ -21,7 +21,7 @@ public class WriteLocalVariable extends Expr {
         return value;
     }
 
-    public WriteLocalVariable(FrameSlot slot) {
-        this.slot = slot;
+    public FrameSlot getSlot() {
+        return slot;
     }
 }

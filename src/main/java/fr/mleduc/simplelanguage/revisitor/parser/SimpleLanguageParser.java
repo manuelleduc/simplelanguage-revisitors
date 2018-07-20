@@ -47,7 +47,6 @@ package fr.mleduc.simplelanguage.revisitor.parser;
 import com.oracle.truffle.api.RootCallTarget;
 import com.oracle.truffle.api.source.Source;
 import fr.mleduc.simplelanguage.revisitor.lang.SLRLanguage;
-import fr.mleduc.simplelanguage.revisitor.model.stmt.Block;
 import fr.mleduc.simplelanguage.revisitor.model.stmt.Stmt;
 import fr.mleduc.simplelanguage.revisitor.model.stmt.expr.Expr;
 import org.antlr.v4.runtime.*;
@@ -165,7 +164,7 @@ public class SimpleLanguageParser extends Parser {
 	    throw new SLParseError(source, token.getLine(), col, token.getText().length(), "Error(s) parsing script:\n" + location + message);
 	}
 
-	public static Map<String, Block> parseSL(SLRLanguage language, Source source) {
+	public static Map<String, RootCallTarget> parseSL(SLRLanguage language, Source source) {
 	    SimpleLanguageLexer lexer = new SimpleLanguageLexer(CharStreams.fromString(source.getCharacters().toString()));
 	    SimpleLanguageParser parser = new SimpleLanguageParser(new CommonTokenStream(lexer));
 	    lexer.removeErrorListeners();

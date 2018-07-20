@@ -2,6 +2,7 @@ package fr.mleduc.simplelanguage.revisitor.model;
 
 import com.oracle.truffle.api.nodes.Node;
 import com.oracle.truffle.api.nodes.NodeInfo;
+import fr.mleduc.simplelanguage.revisitor.lang.FunDef;
 
 
 @NodeInfo(description = "program")

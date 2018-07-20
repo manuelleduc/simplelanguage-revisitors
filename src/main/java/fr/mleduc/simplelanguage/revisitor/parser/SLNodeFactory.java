@@ -45,7 +45,6 @@ import com.oracle.truffle.api.Truffle;
 import com.oracle.truffle.api.frame.FrameDescriptor;
 import com.oracle.truffle.api.frame.FrameSlot;
 import com.oracle.truffle.api.source.Source;
-
 import fr.mleduc.simplelanguage.revisitor.lang.SLRLanguage;
 import fr.mleduc.simplelanguage.revisitor.model.Root;
 import fr.mleduc.simplelanguage.revisitor.model.stmt.*;
@@ -60,7 +59,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Helper class used by the SL {@link Parser} to create nodes. The code is factored out of the
+ * Helper class used by the SL {@link } to create nodes. The code is factored out of the
  * automatically generated parser to keep the attributed grammar of SL small.
  */
 public class SLNodeFactory {
@@ -201,7 +200,7 @@ public class SLNodeFactory {
     }
 
     /**
-     * Returns an {@link SLDebuggerNode} for the given token.
+     * Returns an {@link } for the given token.
      *
      * @param debuggerToken The token containing the debugger node's info.
      * @return A SLDebuggerNode for the given token.
@@ -214,7 +213,7 @@ public class SLNodeFactory {
     }
 
     /**
-     * Returns an {@link SLBreakNode} for the given token.
+     * Returns an {@link } for the given token.
      *
      * @param breakToken The token containing the break node's info.
      * @return A SLBreakNode for the given token.
@@ -399,7 +398,7 @@ public class SLNodeFactory {
     }
 
     /**
-     * Returns an {@link SLWriteLocalVariableNode} for the given parameters.
+     * Returns an {@link } for the given parameters.
      *
      * @param nameNode  The name of the variable being assigned
      * @param valueNode The value to be assigned
@@ -425,8 +424,8 @@ public class SLNodeFactory {
     }
 
     /**
-     * Returns a {@link SLReadLocalVariableNode} if this read is a local variable or a
-     * {@link SLFunctionLiteralNode} if this read is global. In SL, the only global names are
+     * Returns a {@link } if this read is a local variable or a
+     * {@link } if this read is global. In SL, the only global names are
      * functions.
      *
      * @param nameNode The name of the variable/function being read
@@ -493,7 +492,7 @@ public class SLNodeFactory {
     }
 
     /**
-     * Returns an {@link SLReadPropertyNode} for the given parameters.
+     * Returns an {@link } for the given parameters.
      *
      * @param receiverNode The receiver of the property access
      * @param nameNode     The name of the property being accessed
@@ -518,7 +517,7 @@ public class SLNodeFactory {
     }
 
     /**
-     * Returns an {@link SLWritePropertyNode} for the given parameters.
+     * Returns an {@link } for the given parameters.
      *
      * @param receiverNode The receiver object of the property assignment
      * @param nameNode     The name of the property being assigned
